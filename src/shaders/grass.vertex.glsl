@@ -5,6 +5,7 @@ attribute vec3 aPositions;
 attribute float aRandoms;
 
 uniform float uTime;
+uniform sampler2D uPerlin;
 uniform vec3 uCameraPosition;
 
 vec4 quat_from_axis_angle(vec3 axis, float angle){ 
@@ -28,21 +29,30 @@ vec3 rotate_vertex_position(vec3 position, vec3 axis, float angle){
 void main () {
 
   vec3 localPosition = position;
-  vec3 axis = vec3(0.0, 1.0, 0.0);
 
+  // Rotate the grass to face the camera
+  vec3 axis = vec3(0.0, 1.0, 0.0);
   vec3 cameraDirection = normalize(uCameraPosition - localPosition);
-  float angle = 180.0;
+  float angle = atan(cameraDirection.x, cameraDirection.z) * 180.0 / 3.14159;
 
   localPosition = rotate_vertex_position(localPosition, axis, angle);
 
   vec3 newPosition = localPosition + aPositions;
 
+
+  vec3 worldPosition = vec3(modelMatrix * vec4(position + aPositions, 1.0));
+  vec2 globalUv = worldPosition.xz * 0.1; 
+  globalUv.x += uTime * 0.5;
+  globalUv.y += uTime * 0.5;
+  float noice = texture2D(uPerlin, globalUv * 0.1).r;
+  
+  // globalUv.y -= cos(uTime * 0.5);
+
   newPosition.y *= aRandoms;
-  newPosition.x += sin(uTime + (aRandoms + 1.5)) * uv.y;
+  newPosition.x += ((noice - 0.5) * 2.0) * uv.y;
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
 
-  vec3 worldPosition = vec3(modelMatrix * vec4(position + aPositions, 1.0));
 
   vUv = uv;
   vWorldPosition = worldPosition.xyz;

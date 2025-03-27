@@ -3,7 +3,7 @@ import vertexShader from '../shaders/grass.vertex.glsl';
 import fragmentShader from '../shaders/grass.fragment.glsl';
 
 class Grass {
-  instance = 10000;
+  instance = 50000;
   textureLoader = new THREE.TextureLoader();
 
   init() {
@@ -31,10 +31,10 @@ class Grass {
     
     for (let i = 0; i < this.instance * 3; i++) {
 
-      const rowCount = 128/2;
+      const rowCount = 128;
       const pos = i % rowCount;
 
-      let posX = pos - (0.45 * pos) ;
+      let posX = pos - (0.5 * pos) ;
       let posY = 1;
 
       posX -= rowCount / 4;
