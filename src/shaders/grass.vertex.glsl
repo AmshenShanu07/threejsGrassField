@@ -19,11 +19,9 @@ vec4 quat_from_axis_angle(vec3 axis, float angle){
 }
 
 vec3 rotate_vertex_position(vec3 position, vec3 axis, float angle){
-
     vec4 q = quat_from_axis_angle(axis, angle);
     vec3 v = position.xyz;
     return v + 2.0 * cross(q.xyz, cross(q.xyz, v) + q.w * v);
-
 }
 
 void main () {
@@ -34,20 +32,19 @@ void main () {
   vec3 axis = vec3(0.0, 1.0, 0.0);
   vec3 cameraDirection = normalize(uCameraPosition - localPosition);
   float angle = atan(cameraDirection.x, cameraDirection.z) * 180.0 / 3.14159;
-
   localPosition = rotate_vertex_position(localPosition, axis, angle);
 
+  // Positioning the grass
   vec3 newPosition = localPosition + aPositions;
 
 
+  // Applying wind effect
   vec3 worldPosition = vec3(modelMatrix * vec4(position + aPositions, 1.0));
+
   vec2 globalUv = worldPosition.xz * 0.1; 
   globalUv.x += uTime * 0.5;
   globalUv.y += uTime * 0.5;
   float noice = texture2D(uPerlin, globalUv * 0.1).r;
-  
-  // globalUv.y -= cos(uTime * 0.5);
-
   newPosition.y *= aRandoms;
   newPosition.x += ((noice - 0.5) * 2.0) * uv.y;
 

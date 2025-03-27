@@ -14,18 +14,17 @@ class Grass {
 
     this.aPositions = [];
 
-    this.positions.push(-0.25, -1, 0);
-    this.positions.push(0.25, -1, 0);
-    this.positions.push(0.25, 1, 0);
-    this.positions.push(-0.25, 1, 0);
+    this.positions.push(-0.15, 0, 0);
+    this.positions.push(0.15, 0, 0);
+    this.positions.push(0, 1, 0);
 
     this.indexs.push(0, 1, 2);
-    this.indexs.push(0, 2, 3);
+    // this.indexs.push(0, 2, 3);
     
     this.uvs.push(0, 0);
     this.uvs.push(1, 0);
     this.uvs.push(1, 1);
-    this.uvs.push(0, 1);
+    // this.uvs.push(0, 1);
 
     let step = 0;
     

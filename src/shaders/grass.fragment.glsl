@@ -2,18 +2,15 @@ varying vec2 vUv;
 varying vec3 vWorldPosition;
 varying vec3 vNormal;
 
-uniform sampler2D uAlpha;
+// uniform sampler2D uAlpha;
 uniform sampler2D uColorMap;
 uniform sampler2D uPerlin;
 uniform float uTime;
 
 void main() {
 
-  float alpha = texture2D(uAlpha, vUv).r;
-  alpha = smoothstep(0.9, 1.0, alpha);
-
+  // Computing UV for varations
   vec2 globalUv = vWorldPosition.xz * 0.1; 
-
   // globalUv.x += (uTime * 0.1);
   // globalUv.y -= (uTime * 0.1);
 
@@ -26,6 +23,7 @@ void main() {
 
   vec3 color = mix(colorOne, colorVar, noice);
 
-  gl_FragColor = vec4(color, alpha);
+
+  gl_FragColor = vec4(color, 1.0);
 
 }
